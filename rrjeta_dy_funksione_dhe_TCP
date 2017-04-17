@@ -1,0 +1,105 @@
+#TCP - server
+
+from socket import *
+from time import *
+
+port = 9000
+
+serverSocket = socket(AF_INET, SOCK_STREAM)
+
+
+serverSocket.bind(('', port))
+
+serverSocket.listen(1)
+
+print("Serveri eshte i gatshem per pranim vazhdoni tek klienti ...")
+
+while True:
+        connSocket, address = serverSocket.accept()
+        messagefromclient = connSocket.recv(2048)
+        print("Mesazhi nga klienti " + messagefromclient.decode("ASCII"))
+        modified = messagefromclient.upper()
+        ip = (l for l in ([ip for ip in connSocket.gethostbyname_ex(connSocket.gethostname())[2] if not ip.startswith("127.")][:1]))
+        ora = clock()
+        connSocket.send(ora.encode("ASCII"))
+        connSocket.send(ip.encode("ASCII"))
+        connSocket.send(modified.upper().encode("ASCII"))
+
+connSocket.close()
+                
+               
+
+
+#TCP - klient
+
+from socket import *
+
+server = '127.0.0.1'
+port = 9000
+
+clientSocket1 = socket(AF_INET, SOCK_STREAM)
+clientSocket2 = socket(AF_INET, SOCK_STREAM)
+clientSocket3 = socket(AF_INET, SOCK_STREAM)
+
+
+
+mesazhiDergim = input("Mesazhi per te derguar: ")
+
+clientSocket.connect((server, port))
+
+
+
+while True:
+    clientSocket.send(mesazhiDergim.encode("ASCII"))
+    pergjigjjaServeri = clientSocket1.recv(2048)
+    ipngaserveri=clientSocket2.recv(1024)
+    kohaNgaServeri=clientSocket3.recv(1024)
+
+    print("Ora e Serverit: " + kohaNgaServeri.decode("ASCII"))
+    print("IP jauj: " + ipngaserveri.decode("ASCII"))
+    print("Serveri: "+pergjigjjaServeri.decode("ASCII"))
+
+
+clientSocket.close();
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26323.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "tcpServer", "tcpServer\tcpServer.pyproj", "{D25E4565-F807-403E-B4F5-9AE52C89834E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D25E4565-F807-403E-B4F5-9AE52C89834E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D25E4565-F807-403E-B4F5-9AE52C89834E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
+
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26323.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "tcpClient", "tcpClient\tcpClient.pyproj", "{0D77F4BC-27B3-4B2D-A9FB-C552DE0B98DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D77F4BC-27B3-4B2D-A9FB-C552DE0B98DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D77F4BC-27B3-4B2D-A9FB-C552DE0B98DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
+
